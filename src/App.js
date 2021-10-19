@@ -21,10 +21,23 @@ const Gallery = lazy(() => import('./components/Gallery'))
 function App () {
   const [intro, setIntro] = useState(true)
 
+  function iOS () {
+    return [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ].includes(navigator.platform) ||
+    // iPad on iOS 13 detection
+    (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
+  }
+
   return (
     <Suspense fallback={Preloader}>
       {
-        intro &&
+        intro && !iOS() &&
           <div css={divVideoCss}>
             <video className='video' muted autoPlay src={Video} type='video/mp4' onEnded={() => setIntro(false)} />
           </div>
